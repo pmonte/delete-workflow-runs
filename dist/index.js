@@ -20,13 +20,13 @@ async function run() {
         owner: repo_owner,
         repo: repo_name,
       });
-    console.log(`💬 found total of ${runs.length} run(s)`);
+    console.log(`ðŸ’¬ found total of ${runs.length} run(s)`);
     for (const run of runs) {
       let del_runs = new Array();
       let Skip_runs = new Array();
         core.debug(`Run: run ${run.id} (status=${run.status})`)
         if (run.status !== "completed") {
-          console.log(`👻 Skipped run ${run.id}: it is in '${run.status}' state`);
+          console.log(`ðŸ‘» Skipped run ${run.id}: it is in '${run.status}' state`);
           continue;
         }
         const created_at = new Date(run.created_at);
@@ -37,21 +37,22 @@ async function run() {
           core.debug(`  Added to del list run ${run.id}`);
           del_runs.push(run);
         }
-        else {
-          console.log(`👻 Skipped run ${run.id}: created at ${run.created_at}`);
-        }
+        //else {
+          //console.log(`ðŸ‘» Skipped run ${run.id}: created at ${run.created_at}`);
+        //}
 
 
 
 
       const arr_length = del_runs.length - keep_minimum_runs;
       if (arr_length > 0) {
+		console.log(`Ready to delete ${del_runs.length} less keep_minimum_runs runs`);
         del_runs = del_runs.sort((a, b) => { return a.id - b.id; });
         if (keep_minimum_runs !== 0) {
           Skip_runs = del_runs.slice(-keep_minimum_runs);
           del_runs = del_runs.slice(0, -keep_minimum_runs);
           for (const Skipped of Skip_runs) {
-            console.log(`👻 Skipped run ${Skipped.id}: created at ${Skipped.created_at}`);
+            console.log(`ðŸ‘» Skipped run ${Skipped.id}: created at ${Skipped.created_at}`);
           }
         }
         core.debug(`Deleting ${del_runs.length} runs`);
@@ -59,14 +60,17 @@ async function run() {
           core.debug(`Deleting run ${del.id}`);
           // Execute the API "Delete a workflow run", see 'https://octokit.github.io/rest.js/v18#actions-delete-workflow-run'
           //await octokit.actions.deleteWorkflowRun({
-           // owner: repo_owner,
+            //owner: repo_owner,
             //repo: repo_name,
             //run_id: del.id
           //});
-          console.log(`🚀 would Delete run ${del.id}`);
+          console.log(`ðŸš€ Delete run ${del.id}`);
         }
-        console.log(`✅ ${arr_length} runs deleted.`);
+        console.log(`âœ… ${arr_length} runs deleted.`);
       }
+	  else {
+		  console.log(`arr_length = 0`);
+	  }
     }
   }
   catch (error) {
