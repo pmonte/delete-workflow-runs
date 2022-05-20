@@ -21,9 +21,9 @@ async function run() {
         repo: repo_name,
       });
     console.log(`ðŸ’¬ found total of ${runs.length} run(s)`);
+    let del_runs = new Array();
+    let Skip_runs = new Array();
     for (const run of runs) {
-      let del_runs = new Array();
-      let Skip_runs = new Array();
         core.debug(`Run: run ${run.id} (status=${run.status})`)
         if (run.status !== "completed") {
           console.log(`ðŸ‘» Skipped run ${run.id}: it is in '${run.status}' state`);
