@@ -40,7 +40,7 @@ async function run() {
         //else {
           //console.log(`ðŸ‘» Skipped run ${run.id}: created at ${run.created_at}`);
         //}
-
+	}
 
 
 
@@ -72,7 +72,6 @@ async function run() {
 		  console.log(`arr_length = 0`);
 	  }
     }
-  }
   catch (error) {
     core.setFailed(error.message);
   }
